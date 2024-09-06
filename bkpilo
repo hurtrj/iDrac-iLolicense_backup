@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Função para solicitar as informações de acesso ao usuário
+get_credentials() {
+  read -p "Digite o IP do iLO: " ilo_ip
+  read -s -p "Digite o usuário do iLO: " username
+  read -s -p "Digite a senha do iLO: " password
+  echo
+}
+
+# Função para salvar a licença
+save_license() {
+  hponcfg -i $ilo_ip -u $username -p $password getconfig -c "License Information" > licenca_ilo.txt
+  if [ $? -eq 0 ]; then
+    echo "Licença salva com sucesso em licenca_ilo.txt"
+  else
+    echo "Erro ao salvar a licença"
+  fi
+}
+
+# Solicitar as informações de acesso
+get_credentials
+
+# Salvar a licença
+save_license
